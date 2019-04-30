@@ -3,7 +3,8 @@ use "/Users/Dylan/Desktop/acs_00001.dta", clear
 tostring countyfip, replace
 tostring statefip, replace
 
-county = statefip + countyfip 
+egen county = concat(statefip countyfip)
+// county = statefip + countyfip 
 drop if county == 0					// keep only 
 drop if age < 18					// adults
 //drop if citizen == 5				// who are citizens
