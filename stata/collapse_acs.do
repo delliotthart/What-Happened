@@ -11,33 +11,26 @@ drop if age < 18					// adults
 gen naturalized = (citizen == 2) 	// dummy for naturalized citizens
 replace naturalized = . if citizen == . | if citizen == 0
 
-gen non_citizen = (citizen != )
+gen non_citizen = (citizen > 2)
 replace non_citizen = . if citizen == . | if citizen == 0
 
 gen female = sex - 1
 replace female = . if sex == . 
 
-gen public_housing = pubhous - 1
-replace public_housing = . if pubhous == 0
 
 gen foodstamp = foodstmp - 1
-replace foodstamp =. if foodstmp == .
-
-gen bank_acct = (bunbanked == 1) 
-replace bank_acct = . if bunbanked > 90
+replace foodstamp =. if foodstmp == . | foodstmp == 0
 
 
-gen white = (race == 100) 
-gen black = (race == 200) 
-gen asian_pac_islander = (inlist(race,650,651,652)) 
-gen multi_racial = 1-(inlist(race,100,200,300,651,652))
+gen white = racwht - 1
+gen black = racblk - 1
+gen asian_pac_islander = racasian > 1 | racpacis > 1
+gen indig = racamind - 1
 
-foreach v of varlist white black asian_pac_islander multi_racial {
-replace `v' = . if race == .
-}
+gen multi_racial = racother - (white | black | asian_pac_islander | indig)
 
-gen hispanic = (hispan != 0)
-replace hispanic = . if hispan > 900
+gen hispanic = (hispan > 0)
+replace hispanic = . if hispan > 5
 
 gen married = inlist(marst,1,2,3)
 gen single = (marst == 6)
@@ -46,51 +39,60 @@ foreach v of varlist married single {
 replace `v' = . if marst == .
 }
 
-gen foreign_born = (bpl != 9900)
-replace foreign_born = . if bpl == .
+gen foreign_born = (bpl <= 120)
+replace foreign_born = . if bpl == . | bpl > 900 | bpl == 0
 
 gen foreign_parent = (mbpl != 9900 | fbpl != 9900)
-replace foreign_parent = . if mbpl == . & fbpl == .
+replace foreign_parent = . if (mbpl == .  | mbpl > 900 | mbpl == 0) ///
+ & (fbpl == . | fbpl > 900 | fbpl == 0)
 
-gen student = (schlcoll < 5 | edatt == 1 |  edpupr < 900 | edfull < 99) 
-replace student = . if schlcoll == 0 
+gen student = (school == 2) 
+replace student = . if school == 0 | school > 2
 
+//****************** DOUBLE CHECK THIS 
 gen poverty = offpov == 1
 replace poverty = . if offpov == . 
+//****************** DOUBLE CHECK THIS 
 
-gen medicare_aid = himcaid * himcare
-replace medicare_aid = (medicare_aid > 1)
-replace medicare_aid = . if himcaid == . & himcaid == .
+gen veteran =  vetstat - 1
+replace veteran = . if vetstat < 1 | vetstat > 2
 
-gen veteran =  vetlast != 1
-replace veteran = . if vetlast == 0 | vetlast == .
+gen unemp = empstat == 2
+replace unemp = . if unemp == 0 | unemp == .
 
-replace gotwic = gotwic - 1
-replace gotwic = . if gotwic < 0
+gen moved_last_year = migrate1 =! 1
+replace moved_last_year = . if migrate1 == 0 | migrate1 == 9
 
-gen boycott =  ceboycott == 2
-replace boycott = . if ceboycott > 2 | ceboycott == .
+gen indig_land = homeland - 1
 
-gen relig_org =  ceorgrelig == 2
-replace relig_org = . if ceorgrelig > 2 | ceorgrelig == .
+replace farm = farm - 1
+replace farm = . if farm == -1
 
-gen fam_din_daily = cefamdinnr == 6
-replace fam_din_daily = . if cefamdinnr > 90 | cefamdinnr == .
+gen multigen_hh = (multgen == 2 | multgen==3)
+replace multigen_hh = . if multgen == 0 | multgen == .
 
-gen internet_in_home = cinethh - 1
-replace internet_in_home = . if cinethh > 90
+gen col_degree = educd > 81 & educd != 90 & educd != 100
+replace col_degree = . if educd == . | educd == 999 | educd < 001
+
+gen less_than_hs = educd < 62
+replace less_than_hs = . if educd == . | educd == 999 | educd < 001
+
+gen grad = educd > 101
+replace grad = . if educd == . | educd == 999 | educd < 001
+
 
 di "DONE WITH MAKING VARIABLES"
  
 collapse (mean) naturalized non_citizen female ///
-	public_housing foodstamp bank_acct age ///
-	white black asian_pac_islander multi_racial hispanic ///
+	public_housing foodstamp age ///
+	white black asian_pac_islander multi_racial indig hispanic ///
 	married single ///
 	foreign_born foreign_parent ///
-	student poverty medicare_aid gotwic ///
-	boycott relig_org fam_din_daily ///
-	(median) med_hhinc = hhincome med_age = age ///
+	student veteran unemp moved_last_year ///
+	col_degree less_than_hs grad ///
+	indig_land farm grad ///
+	(median) med_hhinc = hhincome med_age = age med_hh_val = valueh ///
 [aw=wtfinl], ///
  by(year county)
 
-export delimited using "/Users/Dylan/Desktop/county_data_alladults.csv", nolabel replace
+export delimited using "/Users/Dylan/Desktop/county_data_alladults_ACS.csv", nolabel replace
