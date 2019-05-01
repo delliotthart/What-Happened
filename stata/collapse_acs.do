@@ -11,7 +11,7 @@ assert strlen(countyfip) == 3
 replace statefip = "0" + statefip if strlen(statefip) < 2
 assert strlen(statefip) == 2
 
-egen county = statefip + countyfip
+gen county = statefip + countyfip
 
 //drop if county == 0				// keep only 
 drop if age < 18					// adults
