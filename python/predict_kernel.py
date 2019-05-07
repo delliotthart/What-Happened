@@ -12,7 +12,7 @@ from sklearn.neighbors import KNeighborsRegressor as KNNReg
 
 
 def load_data(split=False):
-    fileReader = open("merged_final.csv", "rt", encoding="utf8")
+    fileReader = open("data/merged_final.csv", "rt", encoding="utf8")
     csvReader = csv.reader(fileReader)
 
     cHeader = next(csvReader)
