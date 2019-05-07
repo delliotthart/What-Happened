@@ -265,12 +265,10 @@ def display_NN(features, K, county_FIPS):
         feature = KNN_obs[:, i]
 
         plt.plot(feature, KNN_votes)
+
         plt.title(F'Most Similar Counties Based on {ft_name}')
         plt.ylabel('Two-Party Democratic Vote Share')
-    plt.plot(wt_2d[:, 1])
-    plt.title("Within Cluster Scatter vs K\n (2 Dimensional data)")
-    plt.ylabel('within cluster scatter')
-    plt.xlabel('K clusters')
+        plt.xlabel('K clusters')
     plt.savefig('graphs/Within Scatter - 2D.png', bbox_inches='tight')
     plt.gcf().clear()
 
