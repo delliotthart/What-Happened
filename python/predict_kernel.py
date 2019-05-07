@@ -12,7 +12,7 @@ from sklearn.neighbors import KNeighborsRegressor as KNNReg
 
 
 def load_data(split=False):
-    fileReader = open("merged_final.csv", "rt", encoding="utf8")
+    fileReader = open("../data/merged_final.csv", "rt", encoding="utf8")
     csvReader = csv.reader(fileReader)
 
     cHeader = next(csvReader)
@@ -254,31 +254,34 @@ def display_NN(features, K, county_FIPS):
     # print(main_county[0])
     neighbors = classifier.kneighbors(
         [main_county], return_distance=False)
-    print(neighbors[0])
+    # print(neighbors[0])
 
     trimmed_X = np.asarray(trimmed_X)
+    Y = np.asarray(Y)
 
     KNN_obs = trimmed_X[neighbors[0]]
-    KKN_votes = Y[neighbors[0]]
-
-    for i, ft_name in enumerate(features):
+    KNN_votes = Y[neighbors[0]]
+    KNN_predicted = classifier.predict([main_county])
+    print(KNN_predicted)
+    for i in range(len(features) - 1):
+        ft_name = features[i]
         feature = KNN_obs[:, i]
 
-        plt.plot(feature, KNN_votes)
+        plt.plot(feature, KNN_votes, 'o')
+        plt.plot(main_county[i], KNN_predicted, 'o', color='r')
+
         plt.title(F'Most Similar Counties Based on {ft_name}')
         plt.ylabel('Two-Party Democratic Vote Share')
-    plt.plot(wt_2d[:, 1])
-    plt.title("Within Cluster Scatter vs K\n (2 Dimensional data)")
-    plt.ylabel('within cluster scatter')
-    plt.xlabel('K clusters')
-    plt.savefig('graphs/Within Scatter - 2D.png', bbox_inches='tight')
-    plt.gcf().clear()
+        plt.xlabel(F'{ft_name}')
+        filename = F"../output/voteshare_{ft_name}.png"
+        plt.savefig(filename, bbox_inches='tight')
+        plt.gcf().clear()
 
     # print(KNN_obs)
     # print(f'found some neighbors at indexes: {neighbors}')
 
 
-# display_NN(['med_hh_val', 'med_age', 'med_hhinc'], 20, 1003)
+display_NN(['med_hh_val', 'med_age', 'med_hhinc'], 20, 1003)
 
 
 # main(20, 'predict_16')
@@ -286,17 +289,18 @@ def display_NN(features, K, county_FIPS):
 # for k in [5, 10, 20, 50, 100]:
 #     main(k, 'predict_16')
 # #     sim_2016(data, ['med_hh_val', 'med_age'], K=k)
-data = load_data()
-sim_2016(data, ['naturalized', 'non_citizen', 'female', 'foodstamp',
-                'age', 'white', 'black', 'asian_pac_islander', 'multi_racial',
-                'indig', 'hispanic', 'married', 'single', 'foreign_born',
-                'student', 'veteran', 'moved_last_year', 'col_degree',
-                'less_than_hs', 'grad', 'indig_land', 'farm',
-                'med_hhinc', 'med_age', 'med_hh_val'], 20)
-sim_2016(data, ['med_hh_val', 'med_age', 'med_hhinc'], 20)
-sim_2016(data, ['med_hh_val', 'med_age', 'med_hhinc'], 5)
-sim_2016(data, ['med_hh_val', 'med_age', 'med_hhinc'], 100)
 
+# data = load_data()
+# sim_2016(data, ['naturalized', 'non_citizen', 'female', 'foodstamp',
+#                 'age', 'white', 'black', 'asian_pac_islander', 'multi_racial',
+#                 'indig', 'hispanic', 'married', 'single', 'foreign_born',
+#                 'student', 'veteran', 'moved_last_year', 'col_degree',
+#                 'less_than_hs', 'grad', 'indig_land', 'farm',
+#                 'med_hhinc', 'med_age', 'med_hh_val'], 20)
+# sim_2016(data, ['med_hh_val', 'med_age', 'med_hhinc'], 20)
+# sim_2016(data, ['med_hh_val', 'med_age', 'med_hhinc'], 5)
+# sim_2016(data, ['med_hh_val', 'med_age', 'med_hhinc'], 100)
+#
 
 # TODO: bootstrap and then test out of sample
 # TODO: see how adding params one at a time does
