@@ -11,17 +11,17 @@ import matplotlib.pyplot as plt
 
 def append_error(prediction, county_state, label):
     for i, row in enumerate(county_state):
-        print(row[0], prediction[i])
-        county_state[i][2] = prediction[i] - label[i]
-        county_state[i].append(prediction[i])
+        row[2] = prediction[i] - label[i]
+        row[4] = prediction[i]
 
-def visualize_error(county_state, title):
+def visualize_error(county_state, title, file_name):
     error = [round(row[2], 3) for row in county_state]
     plt.hist(error, bins=20)
     plt.ylabel("count")
     plt.xlabel("predicted - actual dem vote share")
     plt.title(title)
-    plt.show()
+    plt.savefig(file_name)
+    plt.close()
 
 def generate_results(county_state, file_name):
     table = []
@@ -38,7 +38,7 @@ def generate_results(county_state, file_name):
 file_reader = open("../data/merged_final.csv", "rt")
 csv_reader = csv.reader(file_reader)
 attr = next(csv_reader)
-not_features = ["county", "dem_share_total", "dem_two_party", "state", "fips", "year"]
+not_features = ["county", "dem_share_total", "dem_two_party", "state", "fips", "year", "state_num"]
 vote_index = attr.index("dem_share_total")
 year_index = attr.index("year")
 county_index = attr.index("county")
@@ -61,7 +61,7 @@ for row in csv_reader:
     else:
         test.append(temp)
         test_votes.append(row[vote_index])
-        county_state.append([row[county_index], row[state_index], 0, row[votes_index]])
+        county_state.append([row[county_index], row[state_index], 0, row[votes_index], 0])
 
 # enc = KBinsDiscretizer(n_bins=10)
 # train_disc = enc.fit_transform(np.asarray(np.array(train), dtype = float))
@@ -72,9 +72,7 @@ clf_tree.fit(train, train_votes)
 prediction_tree = clf_tree.predict(test)
 error_tree = (np.absolute((np.asarray(prediction_tree, dtype=float) - np.asarray(np.array(test_votes), dtype = float)))).mean()
 append_error(np.asarray(prediction_tree, dtype = float), county_state, np.asarray(np.array(test_votes), dtype = float))
-visualize_error(county_state, "prediction error with tree")
-file_reader.seek(0)
-next(csv_reader)
+visualize_error(county_state, "prediction error with tree", "../output/tree_error.png")
 generate_results(county_state, "../data/tree_predictions.csv")
 
 clf_forest = RandomForestClassifier()
@@ -82,7 +80,7 @@ clf_forest.fit(train, train_votes)
 prediction_forest = clf_forest.predict(test)
 error_forest = (np.absolute((np.asarray(prediction_forest, dtype=float) - np.asarray(np.array(test_votes), dtype = float)))).mean()
 append_error(np.asarray(prediction_forest, dtype = float), county_state, np.asarray(np.array(test_votes), dtype = float))
-visualize_error(county_state, "prediction error with random forest")
+visualize_error(county_state, "prediction error with random forest", "../output/forest_error.png")
 generate_results(county_state, "../data/forest_predictions.csv")
 
 # clf_tree.fit(train_disc, train_votes)
