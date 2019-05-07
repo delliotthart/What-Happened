@@ -35,7 +35,7 @@ def generate_results(county_state, file_name):
             else:
                 csv_writer.writerow(table[line])
 
-file_reader = open("merged_final.csv", "rt")
+file_reader = open("../data/merged_final.csv", "rt")
 csv_reader = csv.reader(file_reader)
 attr = next(csv_reader)
 not_features = ["county", "dem_share_total", "dem_two_party", "state", "fips", "year"]
@@ -75,7 +75,7 @@ append_error(np.asarray(prediction_tree, dtype = float), county_state, np.asarra
 visualize_error(county_state, "prediction error with tree")
 file_reader.seek(0)
 next(csv_reader)
-generate_results(county_state, "tree_predictions.csv")
+generate_results(county_state, "../data/tree_predictions.csv")
 
 clf_forest = RandomForestClassifier()
 clf_forest.fit(train, train_votes)
@@ -83,7 +83,7 @@ prediction_forest = clf_forest.predict(test)
 error_forest = (np.absolute((np.asarray(prediction_forest, dtype=float) - np.asarray(np.array(test_votes), dtype = float)))).mean()
 append_error(np.asarray(prediction_forest, dtype = float), county_state, np.asarray(np.array(test_votes), dtype = float))
 visualize_error(county_state, "prediction error with random forest")
-generate_results(county_state, "forest_predictions.csv")
+generate_results(county_state, "../data/forest_predictions.csv")
 
 # clf_tree.fit(train_disc, train_votes)
 # prediction_tree_disc = clf_tree.predict(test_disc)
