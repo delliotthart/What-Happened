@@ -259,8 +259,14 @@ def display_NN(features, K, county_FIPS):
     trimmed_X = np.asarray(trimmed_X)
     Y = np.asarray(Y)
 
+    X_16, Y_16 = prep_data(full_eval, features=features[:-1])
+    county_index = X_16.index(main_county)
+
     KNN_obs = trimmed_X[neighbors[0]]
     KNN_votes = Y[neighbors[0]]
+
+    true_vote_share = Y_16[county_index]
+
     KNN_predicted = classifier.predict([main_county])
     print(KNN_predicted)
     for i in range(len(features) - 1):
@@ -268,7 +274,21 @@ def display_NN(features, K, county_FIPS):
         feature = KNN_obs[:, i]
 
         plt.plot(feature, KNN_votes, 'o')
-        plt.plot(main_county[i], KNN_predicted, 'o', color='r')
+        plt.plot(main_county[i], KNN_predicted, 'o', color='r', alpha=.5)
+
+        x_offset = (5 - 90 * (np.mean(feature) < main_county[i]))
+        y_offset = (5 - 18 * (np.mean(KNN_votes) < KNN_predicted))
+
+        plt.annotate('Predicted Value', (main_county[i], KNN_predicted), xytext=(
+            x_offset, y_offset), textcoords='offset points')
+
+        plt.plot(main_county[i], true_vote_share, '.', color='r')
+
+        x_offset = (5 - 65 * (np.mean(feature) < main_county[i]))
+        y_offset = (5 - 18 * (np.mean(KNN_votes) < true_vote_share))
+
+        plt.annotate('True Value', (main_county[i], true_vote_share), xytext=(
+            x_offset, y_offset), textcoords='offset points')
 
         plt.title(F'Most Similar Counties Based on {ft_name}')
         plt.ylabel('Two-Party Democratic Vote Share')
