@@ -8,8 +8,9 @@ runtime: shiny
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-```
+suppressMessages(suppressWarnings(source('scripts/KNN.R')))
 
+```
 
 #K Nearest Neighbors
 What is particularly interesting about the K-Nearest Neighbors Regression approach is that we can evaluate *what kinds* of similarities are most predictive of how counties vote. We have found that household income, home value, and age are among the most predictive.  
@@ -24,8 +25,7 @@ With this interactive widget, you can try to find the best attributes. Watch as 
 
 ## K Nearest Neighbors: What Kinds of Similarities Are Most Predictive?
 
-```{r Display_KNN_Model, eval=FALSE, include=FALSE}
-suppressWarnings(source('scripts/KNN.R'))
+```{r Display_KNN_Model, echo=FALSE}
    #main_data <- get_election_data()
    # Application title
    
@@ -45,36 +45,19 @@ renderPlot(
    )
 
 ```
-## What Are the Most Similar Counties?
 
-We can take an even closer look to see which *exact counties* are being used as the comparison group in the best performing models.
+## What Are the Most Similar Counties?  
 
-```{r one_county_neighbors, eval=FALSE, include=FALSE}
-  source('scripts/KNN.R')
-  counties <- 'Please Select a State'
-   #main_data <- get_election_data()
-   # Application title
-   
-   # Sidebar with a slider input for number of bins 
-   renderUI(
-   inputPanel(
-     selectInput("state",
-                     "Select State",
-                      choices = state_names,
-                     multiple = FALSE),
-   ))
+We can take an even closer look to see which *exact counties* are being used as the comparison group in the best performing models.  
 
-renderPlot(
-   )
+How close can you get the predicted value to the real vote share? What features seem to work best? At what point does adding more features seem to make the model worse?
 
-```
-
-```{r one_county_take_two, echo=TRUE}
+```{r one_county_take_two, echo=FALSE}
   source('scripts/KNN.R')
 
 shinyAppDir(appDir =  "reactive_KNN_graph",
   options = list(
-    width = "100%", height = 550
+    width = "100%", height = 1100
   )
 )
 ```

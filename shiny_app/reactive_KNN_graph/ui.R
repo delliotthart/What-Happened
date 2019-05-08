@@ -17,17 +17,29 @@ shinyUI(fluidPage(
   # Sidebar with a slider input for number of bins 
   sidebarLayout(
     fluidPage(  
-      inputPanel(selectInput("state",
+      inputPanel(
+        sliderInput('K',"Number of Neighbors",
+                             min = 5, max = 100, value = 20, step = 1),
+        selectInput("state",
                   "Select State",
                   choices = state_names,
-                  multiple = FALSE)
-    
-)),
+                  multiple = FALSE),
+      uiOutput('county_selector'),
+      selectInput("features",
+                  "Select Features",
+                  choices = feature_names,
+                  selected = 'College Degree', multiple = TRUE),
+      uiOutput('display_feature_selector')
+      
+      )),
     
     
     # Show a plot of the generated distribution
-    mainPanel(print('Hi')
-     #  plotOutput("neighbors")
-    )
+    mainPanel(
+       plotOutput("neighbors"),  titlePanel("How Well Do These Features Do Across All Counties?"), 
+       #textOutput('message'),
+plotOutput("full_model") , width = "auto", height = 900
+     )
   )
-))
+  ))
+
