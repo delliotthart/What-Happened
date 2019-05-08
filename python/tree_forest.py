@@ -69,7 +69,7 @@ for row in csv_reader:
 
 clf_tree = tree.DecisionTreeClassifier()
 clf_tree.fit(train, train_votes)
-prediction_tree = clf_tree.predict(test)
+prediction_tree = np.asarray(clf_tree.predict(test), dtype = float)
 error_tree = (np.absolute((np.asarray(prediction_tree, dtype=float) - np.asarray(np.array(test_votes), dtype = float)))).mean()
 append_error(np.asarray(prediction_tree, dtype = float), county_state, np.asarray(np.array(test_votes), dtype = float))
 visualize_error(county_state, "prediction error with tree", "../output/tree_error.png")
@@ -77,7 +77,7 @@ generate_results(county_state, "../data/tree_predictions.csv")
 
 clf_forest = RandomForestClassifier()
 clf_forest.fit(train, train_votes)
-prediction_forest = clf_forest.predict(test)
+prediction_forest = np.asarray(clf_forest.predict(test), dtype = float)
 error_forest = (np.absolute((np.asarray(prediction_forest, dtype=float) - np.asarray(np.array(test_votes), dtype = float)))).mean()
 append_error(np.asarray(prediction_forest, dtype = float), county_state, np.asarray(np.array(test_votes), dtype = float))
 visualize_error(county_state, "prediction error with random forest", "../output/forest_error.png")
