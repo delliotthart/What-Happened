@@ -122,7 +122,6 @@ state_names <- unique(election_data$state[election_data$year == 2016])
 #K <- 5
 #county_fips <- 1003
 #print(get_counties_in_state(state_name))
-display_KNN(test_K,test_features)
 test_K <- 20
 test_features <- c('Female','Age (Median)')
 test_state <- 'Alabama'
@@ -130,4 +129,5 @@ test_county <- 'Baldwin'
 test_display <- 'Female'
 #display_neighbors_for_county(test_K, test_features, test_county, test_state, test_display)
 #is.numeric(unlist(election_data[1,1])[1])
- 
+#display_KNN(test_K,test_features)
+
