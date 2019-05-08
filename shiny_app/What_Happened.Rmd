@@ -27,7 +27,7 @@ With this interactive widget, you can try to find the best attributes. Watch as 
 
 ## K Nearest Neighbors: What Kinds of Similarities Are Most Predictive?
 
-```{r Display_KNN_Model, eval=FALSE, include=FALSE}
+```{r Display_KNN_Model, echo=FALSE}
    #main_data <- get_election_data()
    # Application title
    
@@ -54,7 +54,7 @@ We can take an even closer look to see which *exact counties* are being used as 
 
 How close can you get the predicted value to the real vote share? What features seem to work best? At what point does adding more features seem to make the model worse?
 
-```{r one_county_take_two, eval=FALSE, include=FALSE}
+```{r one_county_take_two, echo=FALSE}
   source('scripts/KNN.R')
 
 shinyAppDir(appDir =  "reactive_KNN_graph",
@@ -68,7 +68,7 @@ shinyAppDir(appDir =  "reactive_KNN_graph",
 
 Note that when we start with $\alpha = 0$, we are running a standard OLS regression.  
 
-```{r lasso_plot}
+```{r lasso_plot, echo=FALSE}
 inputPanel(
   sliderInput('alpha',
               'How agressively should we filter? (scaled Alpha)',
