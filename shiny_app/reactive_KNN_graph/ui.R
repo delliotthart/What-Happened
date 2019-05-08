@@ -37,7 +37,7 @@ shinyUI(fluidPage(
     # Show a plot of the generated distribution
     mainPanel(
        plotOutput("neighbors"),  titlePanel("How Well Do These Features Do Across All Counties?"), 
-       #textOutput('message'),
+       textOutput('message'),
 plotOutput("full_model") , width = "auto", height = 900
      )
   )

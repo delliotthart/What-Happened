@@ -44,9 +44,8 @@ function(input, output) {
         attributes_used <- c(attributes_used,', and')
       }
     }
-    attributes_used <- paste0(attributes_used)
-    attributes_used <- str_c(attributes_used)
-    
+    attributes_used <- paste0(attributes_used, sep = " ", collapse = '')
+
     print(attributes_used)
     paste('Modeling the 2016 Election by looking at the ', input$K, 
           " counties most similar in terms of ", attributes_used)

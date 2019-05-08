@@ -123,7 +123,7 @@ state_names <- unique(election_data$state[election_data$year == 2016])
 #county_fips <- 1003
 #print(get_counties_in_state(state_name))
 test_K <- 20
-test_features <- c('Female','Age (Median)')
+test_features <- c('Female','Age (Median)', 'Black')
 test_state <- 'Alabama'
 test_county <- 'Baldwin'
 test_display <- 'Female'
