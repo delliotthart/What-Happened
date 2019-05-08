@@ -66,7 +66,8 @@ shinyAppDir(appDir =  "reactive_KNN_graph",
 
 ## We can also try Lasso to identify the most important features  
 
-Note that when we start with $\alpha = 0$
+Note that when we start with $\alpha = 0$, we are running a standard OLS regression.  
+
 ```{r lasso_plot}
 inputPanel(
   sliderInput('alpha',
