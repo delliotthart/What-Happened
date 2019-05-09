@@ -5,9 +5,38 @@ from sklearn.preprocessing import KBinsDiscretizer
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-# from mpl_toolkits.basemap import Basemap as Basemap
-# from matplotlib.colors import rgb2hex
-# from matplotlib.patches import Polygon
+
+num_trees = 10
+tree_depth = 50
+
+def find_best_depth(train_features, train_labels, test_features, test_labels):
+    best_err = float('inf')
+    best_depth = -1
+    for depth in range(1, 20):
+        print(depth)
+        model = tree.DecisionTreeClassifier(max_depth = depth)
+        model.fit(train_features, train_labels)
+        prediction = np.asarray(model.predict(test_features), dtype = float)
+        error = (np.absolute((np.asarray(prediction, dtype=float) - np.asarray(np.array(test_labels), dtype = float)))).mean()
+        if error < best_err:
+            best_err = error
+            best_depth = depth
+    return (best_depth, best_err)
+
+def find_best_tree_num(train_features, train_labels, test_features, test_labels):
+    best_err = float('inf')
+    best_num = -1
+    for trees in range(1, 100):
+        print(trees)
+        model = RandomForestClassifier(n_estimators = trees, max_depth = 4)
+        model.fit(train_features, train_labels)
+        prediction = np.asarray(model.predict(test_features), dtype = float)
+        error = (np.absolute((np.asarray(prediction, dtype=float) - np.asarray(np.array(test_labels), dtype = float)))).mean()
+        if error < best_err:
+            best_err = error
+            best_num = trees
+    return (best_num, best_err)
+
 
 def append_error(prediction, county_state, label):
     for i, row in enumerate(county_state):
@@ -63,17 +92,19 @@ for row in csv_reader:
         test_votes.append(row[vote_index])
         county_state.append([row[county_index], row[state_index], 0, row[votes_index], 0])
 
-# enc = KBinsDiscretizer(n_bins=10)
-# train_disc = enc.fit_transform(np.asarray(np.array(train), dtype = float))
-# test_disc = enc.fit_transform(np.asarray(np.array(test), dtype = float))
+# print(find_best_depth(train, train_votes, test, test_votes))
+# print(find_best_tree_num(train, train_votes, test, test_votes))
 
-clf_tree = tree.DecisionTreeClassifier(max_depth = 10)
-clf_tree.fit(train, train_votes)
-prediction_tree = np.asarray(clf_tree.predict(test), dtype = float)
+clf_tree = tree.DecisionTreeClassifier()
+fitted_tree = clf_tree.fit(train, train_votes)
+prediction_tree = np.asarray(fitted_tree.predict(test), dtype = float)
 error_tree = (np.absolute((np.asarray(prediction_tree, dtype=float) - np.asarray(np.array(test_votes), dtype = float)))).mean()
 append_error(np.asarray(prediction_tree, dtype = float), county_state, np.asarray(np.array(test_votes), dtype = float))
 visualize_error(county_state, "prediction error with tree", "../output/tree_error.png")
 generate_results(county_state, "../data/tree_predictions.csv")
+
+feat = list(set(attr) - set(not_features))
+outfile = tree.export_graphviz(fitted_tree, out_file='../output/tree.dot', feature_names=feat)
 
 clf_forest = RandomForestClassifier(n_estimators = 50, max_depth = 10)
 clf_forest.fit(train, train_votes)
@@ -82,15 +113,3 @@ error_forest = (np.absolute((np.asarray(prediction_forest, dtype=float) - np.asa
 append_error(np.asarray(prediction_forest, dtype = float), county_state, np.asarray(np.array(test_votes), dtype = float))
 visualize_error(county_state, "prediction error with random forest", "../output/forest_error.png")
 generate_results(county_state, "../data/forest_predictions.csv")
-
-# clf_tree.fit(train_disc, train_votes)
-# prediction_tree_disc = clf_tree.predict(test_disc)
-# error_tree_disc = (np.absolute((np.asarray(prediction_tree, dtype=float) - np.asarray(np.array(test_votes), dtype = float)))).mean()
-# append_error(np.asarray(prediction_tree_disc, dtype = float), county_state, np.asarray(np.array(test_votes), dtype = float))
-# visualize_error(county_state, "prediction error with tree (discrete features)")
-#
-# clf_forest.fit(train_disc, train_votes)
-# prediction_forest_disc = clf_tree.predict(test_disc)
-# error_forest_disc = (np.absolute((np.asarray(prediction_forest_disc, dtype=float) - np.asarray(np.array(test_votes), dtype = float)))).mean()
-# append_error(np.asarray(prediction_forest_disc, dtype = float), county_state, np.asarray(np.array(test_votes), dtype = float))
-# visualize_error(county_state, "prediction error with forest (discrete features)")
