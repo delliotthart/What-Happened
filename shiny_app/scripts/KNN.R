@@ -42,13 +42,13 @@ display_KNN <- function(K, ft_names){
   
   features <- feature_list[c(ft_names)]
   print(features)
-  Training_X <- election_data[election_data$year != 2016,c(features)]
+  Training_X <<- election_data[election_data$year != 2016,c(features)]
   #print(head(Training_X))
-  Training_Y <- election_data[election_data$year != 2016,ncol(election_data)]
+  Training_Y <<- election_data[election_data$year != 2016,ncol(election_data)]
   #print(head(Training_Y))
-  to_predict <- election_data[election_data$year == 2016,c(features)]
+  to_predict <<- election_data[election_data$year == 2016,c(features)]
   #print(typeof(to_predict))
-  eval_y <- election_data[election_data$year == 2016,ncol(election_data)]
+  eval_y <<- election_data[election_data$year == 2016,ncol(election_data)]
   #print(head(eval_y))
   #head(to_predict)
   
