@@ -6,11 +6,11 @@ library('HDCI')
 getwd()
 #setwd("/Users/Jack/Dropbox/Senior\ Year/Big\ Data/Final\ Project")
 
-demog <- read.csv(file="../data/merged_final.csv", header=TRUE, sep=",")
-demog = as_tibble(demog)
+#demog <- read.csv(file="../data/merged_final.csv", header=TRUE, sep=",")
+#demog = as_tibble(demog)
 
-demShare <- select(demog, dem_share_total)
-demog <- select(demog, feature_list)
+demShare <- select(election_data, dem_share_total)
+demog <- select(election_data, feature_list)
 
 lassoGivenAlpha <- function(alpha) {
   results <- Lasso(as.matrix(demog), as.matrix(demShare), alpha)
