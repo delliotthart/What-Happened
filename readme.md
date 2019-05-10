@@ -1,4 +1,4 @@
-# What Happened? Are Demographics Destiny?
+# What Happened: Are Demographics Destiny?
 
 This project is now [live](https://sites.google.com/brown.edu/whathappened) 
 
