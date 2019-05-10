@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "\n# This is the user-interface definition of a Shiny web application.\n# You can find out more about building applications with Shiny here:\n#\n# http://shiny.rstudio.com\n#\n\nlibrary(shiny)\nsource('lasso.R')\n\nshinyUI(fluidPage(\n\n  # Application title\n  # Sidebar with a slider input for number of bins\n      sliderInput('alpha',\n                  'How agressively should we penalize the magnitude of coefficients?',\n                  min = 0, max = 100, step = 1, value = 0,width= '100%'),\n\n    # Show a plot of the generated distribution\n    mainPanel(\n      plotOutput(\"lasso\"), width = 'auto', height = 450\n    )\n))\n",
+    "created" : 1557426949207.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3635146963",
+    "id" : "49BA9E35",
+    "lastKnownWriteTime" : 1557427505,
+    "last_content_update" : 1557427505332,
+    "path" : "~/Desktop/apps/Lasso_baseline/ui.R",
+    "project_path" : "ui.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

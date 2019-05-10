@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "\n# This is the server logic for a Shiny web application.\n# You can find out more about building applications with Shiny here:\n#\n# http://shiny.rstudio.com\n#\n\nlibrary(shiny)\n\nshinyServer(function(input, output) {\n\n  output$lasso <- renderPlot(\n    lassoGivenAlpha(input$alpha*.00075)\n  )\n})\n",
+    "created" : 1557426949365.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3548569590",
+    "id" : "15D60013",
+    "lastKnownWriteTime" : 1557427033,
+    "last_content_update" : 1557427033511,
+    "path" : "~/Desktop/apps/Lasso_baseline/server.R",
+    "project_path" : "server.R",
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

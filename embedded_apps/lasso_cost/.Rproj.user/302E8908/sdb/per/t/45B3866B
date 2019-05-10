@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "\n# This is the server logic for a Shiny web application.\n# You can find out more about building applications with Shiny here:\n#\n# http://shiny.rstudio.com\n#\n\nlibrary(shiny)\nselected_features<- c('Single','Graduate','Female','Naturalized Citzens','Home Value','White',\"Foreign Born\",'Married')\n\nshinyServer(function(input, output) {\n  \n  output$sliders1 <- renderUI({\n    \n  lapply(selected_features[5:8], function(i) {\n    sliderInput(inputId = paste0(\"cost\", i), label = paste0('Cost to Measure \"', i,'\"'),\n                min = 0, max = 10, value = 5, step = 1)\n    })\n  })\n  output$sliders2 <- renderUI({\n    \n    lapply(selected_features[1:4], function(i) {\n      sliderInput(inputId = paste0(\"cost\", i), label = paste0('Cost to Measure \"', i,'\"'),\n                  min = 0, max = 10, value = 5, step = 1)\n    })\n  })\n  \n  \n  output$lasso <- renderPlot({\n    costs <- sapply(feature_names, function(i){\n      if (any(i == selected_features)){\n        costs[i] <- input[[paste0(\"cost\", i)]]\n      } else {\n        costs[i] <- 5\n      }\n    })\n    \n    valueCalculator(0.015, costs)\n    \n\n\n  })\n})\n",
+    "created" : 1557430517681.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1253004514",
+    "id" : "45B3866B",
+    "lastKnownWriteTime" : 1557433017,
+    "last_content_update" : 1557433017104,
+    "path" : "~/Desktop/apps/lasso_cost/server.R",
+    "project_path" : "server.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

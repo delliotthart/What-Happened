@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "require('ggplot2')\nrequire(dplyr)\nrequire(tibble)\nrequire(glmnet)\n\ncosts <- c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)*5\nnames(costs) <- feature_names\n\nvalueCalculator <- function(alph, costlist) {\n  #internal <- cv.glmnet(as.matrix(demog), as.matrix(demShare), \n  #               penalty.factor = costlist, family=\"gaussian\")\n  lasso <- cv.glmnet(as.matrix(demog), as.matrix(demShare), \n                   penalty.factor = costlist, lambda = c(0, alph), family=\"gaussian\")\n  betas <-as_tibble(as.data.frame(t(as.matrix(lasso[[\"glmnet.fit\"]][[\"beta\"]]))))\n  betas <- betas[1,]\n  names <- names(betas)\n  betas <- as.data.frame(t(betas))\n  plotable <-data.frame(traits = names, beta= betas$V1)\n  plotable <- plotable %>% arrange(-beta) %>% filter(beta != 0)\n  level_order <- as.character(plotable$traits)\n  fig3 <- ggplot(plotable, aes(x = factor(traits, level = level_order), y = beta )) + \n    geom_col(aes(fill=factor(traits, level = level_order))) + labs(x = \"Traits\", y = \"Lasso Coefficient\") +\n    theme_minimal() + \n    guides(fill = guide_legend(title = 'Trait',\n                               ncol =  4,\n                               byrow = TRUE))+\n    theme(text = element_text(size=20),\n          axis.title.x=element_blank(),\n          axis.text.x=element_blank(),\n          axis.ticks.x=element_blank(),\n          legend.position = 'bottom')\n  print(fig3)\n}\n\n\n#valueCalculator(0.013, costs)\n\n\n\n\n\n",
+    "created" : 1557430539775.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2261238524",
+    "id" : "AD347DCA",
+    "lastKnownWriteTime" : 1557433015,
+    "last_content_update" : 1557433015928,
+    "path" : "~/Dropbox (Brown)/Brown/What-Happened/shiny_app_old/scripts/valueCalculator.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 5,
+    "source_on_save" : true,
+    "source_window" : "",
+    "type" : "r_source"
+}

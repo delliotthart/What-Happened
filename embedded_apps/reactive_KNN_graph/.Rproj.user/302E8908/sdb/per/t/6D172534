@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#\n# This is the server logic of a Shiny web application. You can run the \n# application by clicking 'Run App' above.\n#\n# Find out more about building applications with Shiny here:\n# \n#    http://shiny.rstudio.com/\n#\n\nlibrary(shiny)\n\n# Define server logic required to draw a histogram\nfunction(input, output) {\n  \n  \n  output$county_selector <- renderUI({\n    counties <- get_counties_in_state(input$state)\n    selectInput(\"county\",\n                \"Select county\",\n                choices = counties,\n                multiple = FALSE)\n  })\n  \n  output$display_feature_selector <- renderUI({\n    ft_options <- input$features\n    selectInput(\"display_feature\",\n                \"Select Feature to Display\",\n                choices = ft_options,\n                multiple = FALSE)\n  })\n\n  output$neighbors <- renderPlot({\n    display_neighbors_for_county(input$K,input$features,input$county, input$state, input$display_feature)\n    })\n  \n  output$full_model <- renderPlot({\n    display_KNN(input$K,input$features)\n  })\n  \n  output$message <- renderText({\n    attributes_used <- c()\n    for (i in 1:length(input$features)){\n      attributes_used <- c(attributes_used,input$features[i])\n      if (i < length(input$features)){\n        attributes_used <- c(attributes_used,', and')\n      }\n    }\n    attributes_used <- paste0(attributes_used, sep = \" \", collapse = '')\n\n    print(attributes_used)\n    paste('Modeling the 2016 Election by looking at the ', input$K, \n          \" counties most similar in terms of \", attributes_used)\n  })\n}\n  \n",
+    "created" : 1557422039777.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1779002766",
+    "id" : "6D172534",
+    "lastKnownWriteTime" : 1557422236,
+    "last_content_update" : 1557422236963,
+    "path" : "~/Desktop/reactive_KNN_graph/server.R",
+    "project_path" : "server.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

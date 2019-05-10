@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "\n# This is the user-interface definition of a Shiny web application.\n# You can find out more about building applications with Shiny here:\n#\n# http://shiny.rstudio.com\n#\n\nlibrary(shiny)\nsource('KNN.R')\nsource('lasso.R')\nsource('valueCalculator.R')\n\n\n\nshinyUI( \n  fluidPage(\n    titlePanel('How expensive is it to collect data on... '),\n  sidebarPanel(\n    uiOutput(\"sliders1\"), width = 2\n  ),\n  sidebarPanel(\n    uiOutput(\"sliders2\"), width = 2\n  ),\n    \n    # Show a plot of the generated distribution\n    mainPanel(\n      plotOutput(\"lasso\"), height = '100%'\n    )\n  \n)\n)\n\n\n",
+    "created" : 1557430517460.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2730664195",
+    "id" : "B9290518",
+    "lastKnownWriteTime" : 1557433094,
+    "last_content_update" : 1557433094606,
+    "path" : "~/Desktop/apps/lasso_cost/ui.R",
+    "project_path" : "ui.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

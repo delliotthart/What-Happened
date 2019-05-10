@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#\n# This is the user-interface definition of a Shiny web application. You can\n# run the application by clicking 'Run App' above.\n#\n# Find out more about building applications with Shiny here:\n# \n#    http://shiny.rstudio.com/\n#\n\nlibrary(shiny)\nsource('KNN.R')\n\n# Define UI for application that draws a histogram\nshinyUI(fluidPage(\n  \n  # Application title\n  inputPanel(\n    selectInput(\"features\",\n                \"Select Features\",\n                choices = feature_names,\n                selected = 'College Degree', multiple = TRUE),\n    sliderInput('K',\"Number of Neighbors\",\n                min = 5, max = 100, value = 20, step = 1)\n  ),\n    \n    # Show a plot of the generated distribution\n    mainPanel(\n       plotOutput(\"KNN\")\n    )\n  )\n)\n",
+    "created" : 1557425974515.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1046613921",
+    "id" : "C634FA07",
+    "lastKnownWriteTime" : 1557426071,
+    "last_content_update" : 1557426071138,
+    "path" : "~/Desktop/Display_KNN_Single/ui.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

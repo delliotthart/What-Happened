@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#\n# This is the server logic of a Shiny web application. You can run the \n# application by clicking 'Run App' above.\n#\n# Find out more about building applications with Shiny here:\n# \n#    http://shiny.rstudio.com/\n#\n\nlibrary(shiny)\n\n# Define server logic required to draw a histogram\nshinyServer(function(input, output) {\n   \n  output$KNN <- renderPlot(\n    display_KNN(input$K,input$features), width = \"auto\", height = 450\n  )\n  \n})\n",
+    "created" : 1557425974890.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "292559024",
+    "id" : "1C779F18",
+    "lastKnownWriteTime" : 1557426044,
+    "last_content_update" : 1557426044868,
+    "path" : "~/Desktop/Display_KNN_Single/server.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

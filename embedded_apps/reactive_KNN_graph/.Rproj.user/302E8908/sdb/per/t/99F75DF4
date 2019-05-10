@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#\n# This is the user-interface definition of a Shiny web application. You can\n# run the application by clicking 'Run App' above.\n#\n# Find out more about building applications with Shiny here:\n# \n#    http://shiny.rstudio.com/\n#\n\nlibrary(shiny)\nsource('KNN.R')\n\n# Define UI for application that draws a histogram\nshinyUI(fluidPage(\n  \n  # Application title\n\n  # Sidebar with a slider input for number of bins \n  sidebarLayout(\n    fluidPage(  \n      inputPanel(\n        sliderInput('K',\"Number of Neighbors\",\n                             min = 5, max = 100, value = 20, step = 1),\n        selectInput(\"state\",\n                  \"Select State\",\n                  choices = state_names,\n                  multiple = FALSE),\n      uiOutput('county_selector'),\n      selectInput(\"features\",\n                  \"Select Features\",\n                  choices = feature_names,\n                  selected = 'College Degree', multiple = TRUE),\n      uiOutput('display_feature_selector')\n      \n      )),\n    \n    \n    # Show a plot of the generated distribution\n    mainPanel(\n       plotOutput(\"neighbors\"),  titlePanel(\"How Well Do These Features Do Across All Counties?\"), \n       textOutput('message'),\nplotOutput(\"full_model\") , width = \"auto\", height = 900\n     )\n  )\n  ))\n\n",
+    "created" : 1557422212860.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3437705754",
+    "id" : "99F75DF4",
+    "lastKnownWriteTime" : 1557422237,
+    "last_content_update" : 1557422237080,
+    "path" : "~/Desktop/reactive_KNN_graph/ui.R",
+    "project_path" : "ui.R",
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

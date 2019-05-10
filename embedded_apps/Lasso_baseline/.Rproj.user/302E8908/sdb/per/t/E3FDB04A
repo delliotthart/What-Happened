@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "library('ggplot2')\nlibrary('dplyr')\nlibrary('tibble')\nlibrary('HDCI')\n\nsource('KNN.R')\n#getwd()\n#setwd(\"/Users/Jack/Dropbox/Senior\\ Year/Big\\ Data/Final\\ Project\")\n\n#demog <- read.csv(file=\"../data/merged_final.csv\", header=TRUE, sep=\",\")\n#demog = as_tibble(demog)\n\ndemShare <- select(election_data, dem_share_total)\ndemog <- select(election_data, feature_list)\n\nlassoGivenAlpha <- function(alpha) {\n  results <- Lasso(as.matrix(demog), as.matrix(demShare), alpha)\n  coefs <- data.frame(traits = c(colnames(demog)), beta= c(results[[\"beta\"]]))\n  coefs <- coefs %>% arrange(-beta) %>% filter(beta != 0)\n  level_order <- as.character(coefs$traits)\n  plot <- ggplot(coefs, aes(x = factor(traits, level = level_order), y = beta )) + \n    geom_col(aes(fill=factor(traits, level = level_order))) + labs(x = \"Traits\", y = \"Lasso Coefficient\") +\n    theme_minimal() + \n    guides(fill = guide_legend(title = 'Trait',\n                               ncol =  4,\n                               byrow = TRUE))+\n    theme(text = element_text(size=20),\n          axis.title.x=element_blank(),\n          axis.text.x=element_blank(),\n          axis.ticks.x=element_blank(),\n          legend.position = 'bottom')\n  #print(plot)\n  plot\n}\n\n#example for a single alpha:\n#lassoGivenAlpha(.075)\n#c(colnames(demog))\n\n\n\n",
+    "created" : 1557427276500.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3090815607",
+    "id" : "E3FDB04A",
+    "lastKnownWriteTime" : 1557427363,
+    "last_content_update" : 1557427363615,
+    "path" : "~/Desktop/apps/Lasso_baseline/lasso.R",
+    "project_path" : "lasso.R",
+    "properties" : {
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,12 @@
+name: Display_KNN_Single
+title: Display_KNN_Single
+username:
+account: what-happened
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 920614
+bundleId: 2073101
+url: https://what-happened.shinyapps.io/Display_KNN_Single/
+when: 1557426703.65315
+asMultiple: FALSE
+asStatic: FALSE

@@ -1,0 +1,12 @@
+name: lasso_cost
+title: lasso_cost
+username:
+account: what-happened
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 920877
+bundleId: 2073333
+url: https://what-happened.shinyapps.io/lasso_cost/
+when: 1557433148.34752
+asMultiple: FALSE
+asStatic: FALSE
